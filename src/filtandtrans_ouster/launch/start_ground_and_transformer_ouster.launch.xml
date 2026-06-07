@@ -1,0 +1,24 @@
+<launch>
+  <!-- cloud_transformer_ouster -->
+  <node
+    pkg="cloud_transformer_ouster"
+    exec="cloud_transformer_ouster_node"
+    name="cloud_transformer_ouster_node"
+    output="screen"
+  >
+
+    <param from="$(find-pkg-share cloud_transformer_ouster)/config/transformer.param.yaml"/>
+  </node>
+  
+  <!-- autoware ground segmentation (ouster) -->
+  <include file="$(find-pkg-share autoware_ground_segmentation_ouster)/launch/ray_ground_filter.launch.xml"/>
+
+  <node
+    pkg="cloud_transformer_ouster_2"
+    exec="cloud_transformer_ouster_2_node"
+    name="cloud_transformer_ouster_2_node"
+    output="screen"
+  >
+    <param from="$(find-pkg-share cloud_transformer_ouster_2)/config/transformer.param.yaml"/>
+  </node>
+</launch>
