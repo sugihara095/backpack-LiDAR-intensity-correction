@@ -1,0 +1,40 @@
+repositories:
+  cloud_transformer_ouster:
+    type: git
+    url: https://github.com/sugihara095/cloud_transformer_ouster
+    version: main
+
+  cloud_transformer_ouster_2:
+    type: git
+    url: https://github.com/sugihara095/cloud_transformer_ouster_2
+    version: main
+
+  ouster_intensity_corrector:
+    type: git
+    url: https://github.com/sugihara095/ouster_intensity_corrector
+    version: main
+
+  ouster_ring_filter:
+    type: git
+    url: https://github.com/sugihara095/ouster_ring_filter
+    version: main
+
+  ouster_cylinder_normal_estimator:
+    type: git
+    url: https://github.com/sugihara095/ouster_cylinder_normal_estimator
+    version: main
+
+  pcd_field_restorer:
+    type: git
+    url: https://github.com/sugihara095/pcd_field_restorer
+    version: main
+
+  autoware_universe:
+    type: git
+    url: https://github.com/sugihara095/autoware_universe
+    version: main
+
+  lio_sam_ouster:
+    type: git
+    url: https://github.com/sugihara095/LIO-SAM
+    version: ros2
