@@ -9,7 +9,7 @@
 
 ---
 
-## 🛠️ 環境構築と依存パッケージのインストール
+## 環境構築と依存パッケージのインストール
 
 本パイプラインはROS 2環境上で動作します。必要なパッケージは `backpack_dependencies.repos` に定義されており、以下の手順で一括ダウンロード・ビルドを行います。
 
@@ -93,3 +93,20 @@ chmod +x process_pipeline.sh
    * 推定した法線や距離・角度情報を用いて、LiDARの反射強度（Intensity）の補正を行います（`result_pcd_6` を出力）。
 5. **Ring Filtering** (`ouster_ring_filter`)
    * スクリプト内で指定された特定のリング（例: `[8,9,10,11,12,13,14,15]`）の点群のみを抽出するフィルタリングを行います（`result_pcd_7` を出力）。
+
+---
+
+## マッピング時のリアルタイム前処理 (filtandtrans_ouster)
+
+オフラインのPCD処理パイプライン（`process_pipeline.sh`）とは別に、**LIO-SAM**（[LIO-SAM リポジトリ](https://github.com/sugihara095/LIO-SAM)）を用いた自己位置推定・マッピングを実行する際に、**同時に（リアルタイムで）適用することを想定した前処理Launch (`filtandtrans_ouster`)** についても本構成に含まれています。
+
+この前処理Launchは、以下の3つのパッケージを組み合わせることで、マッピング精度の向上や不要な地面点の除去を行います。
+
+1. **`cloud_transformer_ouster`**
+   * LiDAR点群のZ座標をセンサーの高さ分下げて、地面の高さを Z=0 に合わせます。
+2. **`AutowareGroundFilter`** ([autoware_universe](https://github.com/sugihara095/autoware_universe))
+   * 地面と判定される点群を分離・除去します。
+3. **`cloud_transformer_ouster2`**
+   * `cloud_transformer_ouster` で下げたZ座標を、元のセンサーの高さに戻します。
+
+この一連のGround Filter処理をLIO-SAMの実行と並行して（同時にLaunchして）かけることで、よりクリーンな点群データに基づいた精度の高い地図作成が可能になります。
